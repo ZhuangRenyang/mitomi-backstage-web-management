@@ -69,7 +69,8 @@ export default {
   },
   methods: {
     loadBrands: function () {
-      let url = "http://localhost:9080/commodity";
+      let url = "http://localhost:9080/commodity";//
+      //
       this.axios.create({headers:{'Authorization':localStorage
               .getItem('jwt')}}).get(url).then((response) => {
         console.log(response.data);

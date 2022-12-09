@@ -19,10 +19,11 @@
         <el-form-item label="商品价格" prop="pinyin" label-width="120px" class="item">
           <el-input style="width: 200px" type="text" v-model="ruleForm.price"></el-input>
         </el-form-item>
-        <el-form-item label="商品LOGO" prop="logo" label-width="120px" class="item">
+        <el-form-item label="商品LOGO"  label-width="120px" class="item">
           <el-upload
-              action="upload"
+              action="http://localhost:9080/upload"
               name="picFile"
+              headers=""
               :limit="1"
               list-type="picture-card"
               :on-preview="handlePictureCardPreview"
@@ -72,11 +73,12 @@
 export default {
   data() {
     return {
+      dialogImageUrl: '',
+      dialogVisible: false,
       ruleForm: {
         name: '',
         category: '',
-        price:'',
-        logo: '',
+        price: '',
         categoryId: '',
         description: '',
         keywords: '',
@@ -98,12 +100,39 @@ export default {
     };
   },
   methods: {
+    handleRemove(file, fileList) {
+      /*file表示要删除的文件
+      * file.response代表是文件上传成功后,服务器响应的数据(文件名)*/
+      console.log(file, fileList);
+      this.axios.create({
+        headers: {
+          'Authorization': localStorage
+              .getItem('jwt')
+        }
+      }).get("http://localhost:9080/remove?name="+file.response).then(function (response){
+            alert("服务器图片删除成功!")
+          }
+      )
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.logo;
+      this.dialogVisible = true;
+    },
+    handleSuccess(response,file, fileList) {
+      //response = file.response
+      console.log("文件上传成功后,图片名="+response);
+      ruleForm.logo = response;
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let url = "http://localhost:9080/commodity/insert"
-          this.axios.create({headers:{'Authorization':localStorage
-                  .getItem('jwt')}}).post(url, this.ruleForm).then((response) => {
+          this.axios.create({
+            headers: {
+              'Authorization': localStorage
+                  .getItem('jwt')
+            }
+          }).post(url, this.ruleForm).then((response) => {
                 console.log(response.data);
                 if (response.data.code == 20000) {
                   this.$message({
