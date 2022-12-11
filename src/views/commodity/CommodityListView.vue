@@ -17,8 +17,12 @@
         <el-table-column prop="name" label="商品名称" width="100"></el-table-column>
         <el-table-column prop="category" label="商品分类" width="120"></el-table-column>
         <el-table-column prop="price" label="商品价格" width="120"></el-table-column>
-        <!--        <el-table-column prop="logo" label="品牌logo"></el-table-column>-->
-        <!--        <el-table-column prop="description" label="品牌简介"></el-table-column>-->
+        <el-table-column prop="logo" label="商品图片">
+          <template  slot-scope="scope">
+            <!-- scope.row代表当前遍历的数组中的对象 -->
+            <img :src="scope.row.logo" width="150">
+          </template>
+        </el-table-column>
         <el-table-column prop="keywords" label="关键词"></el-table-column>
         <el-table-column prop="positiveCommentCount" label="好评 / 评论数" width="150">
           <template slot-scope="scope">

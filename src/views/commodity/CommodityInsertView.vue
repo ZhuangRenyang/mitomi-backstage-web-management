@@ -13,17 +13,18 @@
         <el-form-item label="商品名称" prop="name" label-width="120px" class="item">
           <el-input style="width: 200px" type="text" v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="商品分类" prop="pinyin" label-width="120px" class="item">
+        <el-form-item label="商品分类" prop="category" label-width="120px" class="item">
           <el-input style="width: 200px" type="text" v-model="ruleForm.category"></el-input>
         </el-form-item>
-        <el-form-item label="商品价格" prop="pinyin" label-width="120px" class="item">
+        <el-form-item label="商品价格" prop="price" label-width="120px" class="item">
           <el-input style="width: 200px" type="text" v-model="ruleForm.price"></el-input>
         </el-form-item>
-        <el-form-item label="商品LOGO"  label-width="120px" class="item">
+
+        <el-form-item label="商品LOGO" label-width="120px" class="item">
           <el-upload
-              action="http://localhost:9080/upload"
+              :action="uploadURL"
+              :headers="headerObj"
               name="picFile"
-              headers=""
               :limit="1"
               list-type="picture-card"
               :on-preview="handlePictureCardPreview"
@@ -68,17 +69,24 @@
     </el-card>
   </div>
 </template>
-
 <script>
+
 export default {
   data() {
     return {
+      uploadURL: 'http://localhost:9080/upload',
+      headerObj: {
+        'Authorization': localStorage
+            .getItem('jwt')
+      },
       dialogImageUrl: '',
       dialogVisible: false,
+
       ruleForm: {
         name: '',
         category: '',
         price: '',
+        logo: '',
         categoryId: '',
         description: '',
         keywords: '',
@@ -99,29 +107,56 @@ export default {
       }
     };
   },
+
+
   methods: {
     handleRemove(file, fileList) {
       /*file表示要删除的文件
       * file.response代表是文件上传成功后,服务器响应的数据(文件名)*/
       console.log(file, fileList);
+      let logoName = this.ruleForm.logo;
+      let url = 'http://localhost:9080/remove/' + logoName
       this.axios.create({
         headers: {
           'Authorization': localStorage
               .getItem('jwt')
         }
-      }).get("http://localhost:9080/remove?name="+file.response).then(function (response){
-            alert("服务器图片删除成功!")
+      }).post(url).then((response) => {
+        let code = response.data.code;//Controller返回的状态码需要从data的json格式中获取code
+            if (code == 20000) {
+              this.$message({
+                type: "success",
+                message: "删除图片成功"
+              })
+            } else {
+              this.$message({
+                  type: "error",
+                  message: "删除图片失败"})
+            }
           }
       )
     },
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.logo;
+      console.log("file:" + file)
+      this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-    handleSuccess(response,file, fileList) {
-      //response = file.response
-      console.log("文件上传成功后,图片名="+response);
-      ruleForm.logo = response;
+    handleSuccess(response, file, fileList) {
+      console.log("file:" + file.name)
+      console.log("fileList" + fileList.name)
+      console.log("文件上传成功后,图片名=" + response.data);//他所响应的不需要json格式转换
+      if (response.code == 20000) {
+        this.$message({
+          type: "success",
+          message: "添加图片成功"
+        })
+        let logoName = response.data;//这里的data是Controller返回的图片名称
+        this.ruleForm.logo = logoName;//这里是获取到的图片名称赋值给ruleForm的logo作为赋值到sql中的url
+      } else {
+        this.$message.error(response.message)//这里不能写data.message
+      }
+
+
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -132,18 +167,17 @@ export default {
               'Authorization': localStorage
                   .getItem('jwt')
             }
-          }).post(url, this.ruleForm).then((response) => {
-                console.log(response.data);
-                if (response.data.code == 20000) {
-                  this.$message({
-                    type: "success",
-                    message: "添加商品成功"
-                  })
-                } else {
-                  this.$message.error(response.data.message)
-                }
-              }
-          )
+          }).post(url, this.ruleForm).then((response) => {//这里传
+            console.log(response.data);
+            if (response.data.code == 20000) {
+              this.$message({
+                type: "success",
+                message: "添加商品成功"
+              })
+            } else {
+              this.$message.error(response.data.message)
+            }
+          })
         } else {
           console.log('error submit!!');
           return false;
