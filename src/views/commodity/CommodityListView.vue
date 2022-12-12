@@ -81,6 +81,7 @@ export default {
         let jsonResult = response.data;
         if (jsonResult.code == 20000) {
           this.tableData = jsonResult.data;
+          console.log(this.tableData)
         } else {
           this.$message.error(jsonResult.message)
         }
