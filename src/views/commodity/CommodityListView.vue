@@ -72,7 +72,7 @@ export default {
     }
   },
   methods: {
-    loadBrands: function () {
+    loadCommodity: function () {
       let url = "http://localhost:9080/commodity";//
       //
       this.axios.create({headers:{'Authorization':localStorage
@@ -113,7 +113,7 @@ export default {
         } else {
           this.$message.error(response.data.message)
         }
-        this.loadBrands();
+        this.loadCommodity();
       })
       console.log(index,id);
     },
@@ -144,7 +144,7 @@ export default {
         }else {
           this.$message.error(response.data.message)
         }
-        this.loadBrands();
+        this.loadCommodity();
       })
     }
   },
@@ -153,7 +153,7 @@ export default {
   },
   mounted() {//已挂载，在created之后，在显示页面之前执行
     console.log("mounted")
-    this.loadBrands();
+    this.loadCommodity();
   }
 
 }

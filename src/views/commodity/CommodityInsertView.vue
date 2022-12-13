@@ -14,10 +14,14 @@
           <el-input style="width: 200px" type="text" v-model="ruleForm.name"></el-input>
         </el-form-item>
         <el-form-item label="商品分类" prop="category" label-width="120px" class="item">
-          <el-input style="width: 200px" type="text" v-model="ruleForm.category"></el-input>
+          <template>
+            <el-select v-model="ruleForm.category" style="width: 150px" placeholder="请选择">
+              <el-option v-for ="c in categoryArr" :value="c.name"></el-option>
+            </el-select>
+          </template>
         </el-form-item>
         <el-form-item label="商品价格" prop="price" label-width="120px" class="item">
-          <el-input style="width: 200px" type="text" v-model="ruleForm.price"></el-input>
+          <el-input style="width: 200px" type="number" v-model.number="ruleForm.price"></el-input>
         </el-form-item>
 
         <el-form-item label="商品LOGO" label-width="120px" class="item">
@@ -38,8 +42,8 @@
         </el-form-item>
         <el-form-item label="类别id" prop="categoryId" label-width="120px" class="item">
           <template>
-            <el-select style="width: 150px" placeholder="请选择">
-              <el-option></el-option>
+            <el-select v-model="ruleForm.categoryId" style="width: 150px" placeholder="请选择">
+              <el-option v-for ="c in categoryArr" :value="c.id"></el-option>
             </el-select>
           </template>
         </el-form-item>
@@ -51,15 +55,14 @@
               v-model="ruleForm.description"
               maxlength="1000"
               show-word-limit
-
           >
           </el-input>
         </el-form-item>
         <el-form-item label="关键词列表" prop="keywords" label-width="120px" class="item">
-          <el-input style="width: 200px" type="text" v-model="ruleForm.keywords"></el-input>
+          <el-input style="width: 200px" type="text" v-model.trim="ruleForm.keywords"></el-input>
         </el-form-item>
         <el-form-item label="排序查" prop="sort" label-width="120px" class="item">
-          <el-input style="width: 100px" type="text" v-model="ruleForm.sort"></el-input>
+          <el-input style="width: 100px" type="text" v-model.number="ruleForm.sort"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button style="margin-left: 130px" type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -92,15 +95,23 @@ export default {
         keywords: '',
         sort: ''
       },
+      categoryArr:[
+        {id:1, name:'家电'},
+        {id:2, name:'数码'},
+        {id:3, name:'服装'},
+        {id:4, name:'食品'},
+        {id:5, name:'生鲜'},
+        {id:6, name:'工业品'},
+      ],
       rules: {
         name: [
           {required: true, message: '请输入商品名称', trigger: 'blur'},
           {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
         ],
-        category: [
-          {required: true, message: '请输入商品分类', trigger: 'blur'},
-          {min: 2, max: 25, message: '长度在 2 到 25 个字符', trigger: 'blur'}
-        ],
+        // category: [
+        //   {required: true, message: '请输入商品分类', trigger: 'blur'},
+        //   {min: 2, max: 25, message: '长度在 2 到 25 个字符', trigger: 'blur'}
+        // ],
         // sort: [
         //   {pattern: "/^[1-9]{1}[0-9]?$/", message: '必须是0-99之间的数值', trigger: 'blur'},
         // ]
@@ -191,6 +202,13 @@ export default {
 }
 </script>
 <style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+/deep/ input[type='number'] {
+  -moz-appearance: textfield;
+}
 .item .el-form-item__label {
   color: #acce8a;
 }

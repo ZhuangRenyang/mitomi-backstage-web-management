@@ -1,8 +1,23 @@
 <template>
   <div class="home">
     <el-container>
-      <el-header class="el-header">页面的上半部分,顶栏
-
+      <el-header style="height: 90px; background-color: black">
+      <div style="width: auto;height: 70px; margin: 0 auto;">
+        <img src="../assets/logo.png" style="width: 200px;vertical-align: middle">
+        <span>
+                    <a href="">有品</a><el-divider direction="vertical"></el-divider>
+                    <a href="">企业团购</a><el-divider direction="vertical"></el-divider>
+                    <a href="">资质证照</a><el-divider direction="vertical"></el-divider>
+                    <a href="">协议规则</a><el-divider direction="vertical"></el-divider>
+                    <a href="">下载app</a><el-divider direction="vertical"></el-divider>
+                    <a href="">Select Location</a>
+                    <a style="margin-left: 150px" href="http://localhost:8080/">登录</a><el-divider
+            direction="vertical"></el-divider>
+                    <a href="javascript:void(0)" @click="logout()">注册</a><el-divider
+            direction="vertical"></el-divider>
+                    <a href="">消息通知</a>
+                </span>
+      </div>
       </el-header>
       <el-container class="layout-body">
         <el-aside class="layout-aside" width="200px">
@@ -52,14 +67,6 @@
   margin: 0;
 }
 
-.el-header {
-  /*border: 4px solid transparent;*/
-  border-radius: 2px;
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  background-image: linear-gradient(to right, #F78FAD, #FDEB82);
-  /*background-image: linear-gradient(to right, #F78FAD, #FDEB82),linear-gradient(90deg, #8F41E9, #578AEF);*/
-}
 
 .el-submenu {
   border-radius: 2px;
@@ -93,6 +100,11 @@
 .el-main {
   background-image: url("../assets/bg.png");
   background-size: cover; /* cover是专门用来设置全屏背景的 */
+}
+header a {
+  /* 去除下划线 */
+  text-decoration: none;
+  color: #6c6c6c;
 }
 
 </style>
