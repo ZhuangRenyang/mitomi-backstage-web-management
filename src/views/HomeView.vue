@@ -72,14 +72,14 @@
   border-radius: 2px;
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
-  background-image: linear-gradient(to right, #F5CCF6, #F1EEF9);
+  background-image: linear-gradient(to right, #ABC7FF, #C1E3FF);
 }
 
 .el-menu-item {
-  border-radius: 2px;
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  background-image: linear-gradient(to right, #ABC7FF, #C1E3FF);
+  /*border-radius: 2px;*/
+  /*background-clip: padding-box, border-box;*/
+  /*background-origin: padding-box, border-box;*/
+  /*background-image: linear-gradient(to right, #ABC7FF, #C1E3FF);*/
 }
 
 .layout-body {
@@ -91,10 +91,10 @@
 }
 
 .layout-aside {
-  border-radius: 2px;
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  background-image: linear-gradient(to right, #99E5A2, #D4FC78);
+  /*border-radius: 2px;*/
+  /*background-clip: padding-box, border-box;*/
+  /*background-origin: padding-box, border-box;*/
+  /*background-image: linear-gradient(to right, #99E5A2, #D4FC78);*/
 }
 
 .el-main {

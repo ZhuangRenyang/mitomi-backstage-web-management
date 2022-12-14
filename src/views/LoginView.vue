@@ -1,6 +1,6 @@
 <template>
   <body>
-  <div id="app">
+  <div CLASS="login">
     <br>
     <h1>MiToMi商城管理平台</h1>
     <br>
